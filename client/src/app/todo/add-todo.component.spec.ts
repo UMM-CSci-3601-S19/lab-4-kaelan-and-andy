@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MatDialogRef, MAT_DIALOG_DATA, MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 
-import {AddUserComponent} from './add-todo.component';
+import {AddTodoComponent} from './add-todo.component';
 import {CustomModule} from '../custom.module';
 import {By} from "@angular/platform-browser";
 import {NgForm} from "@angular/forms";
