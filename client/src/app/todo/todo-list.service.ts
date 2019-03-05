@@ -11,6 +11,7 @@ import {environment} from '../../environments/environment';
 export class TodoListService {
   readonly baseUrl: string = environment.API_URL + 'todos';
   private todoUrl: string = this.baseUrl;
+  private blancheUrl: string = this.todoUrl + '?owner=Blanche&status=true';
 
   constructor(private http: HttpClient) {
   }
@@ -21,6 +22,11 @@ export class TodoListService {
     this.filterByBody(todoBody);
     this.filterByCategory(todoCategory);
     return this.http.get<Todo[]>(this.todoUrl);
+  }
+
+  getBlanche(blancheCategory){
+    this.filterByCategoryBlanche(blancheCategory);
+    return this.http.get<Todo[]>(this.blancheUrl);
   }
 
   getTodoById(id: string): Observable<Todo> {
@@ -36,6 +42,30 @@ export class TodoListService {
       return this.http.request(this.userUrl).map(res => res.json());
   }
   */
+  filterByCategoryBlanche(blancheCategory?: string): void {
+    if (!(blancheCategory == null || blancheCategory === '')) {
+      if (this.parameterPresent('category=')) {
+        this.removeParameter('category=');
+      }
+      if (this.blancheUrl.indexOf('?') !== -1) {
+        // there was already some information passed in this url
+        this.blancheUrl += 'category=' + blancheCategory + '&';
+      } else {
+        // this was the first bit of information to pass in the url
+        this.blancheUrl += '?category=' + blancheCategory + '&';
+      }
+    } else {
+      // there was nothing in the box to put onto the URL... reset
+      if (this.parameterPresent('category=')) {
+        let start = this.blancheUrl.indexOf('category=');
+        const end = this.blancheUrl.indexOf('&', start);
+        if (this.blancheUrl.substring(start - 1, start) === '?') {
+          start = start - 1;
+        }
+        this.blancheUrl = this.blancheUrl.substring(0, start) + this.blancheUrl.substring(end + 1);
+      }
+    }
+  }
 
   filterByCategory(todoCategory?: string): void {
     if (!(todoCategory == null || todoCategory === '')) {

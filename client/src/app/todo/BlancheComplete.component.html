@@ -1,0 +1,52 @@
+<div layout-gt-sm="row">
+  <div flex-gt-sm="80" flex-offset-gt-sm="10">
+    <mat-card>
+      <mat-card-title id="todo-list-title">Todos</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput id="blancheBody" #input type="search" placeholder="Filter by body"
+                 (input)="blancheBody = $event.target.value">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput id="blancheCategory" #input type="search" placeholder="Search for category"
+                 (input)="blancheCategory = $event.target.value"/>
+          <button mat-button id="categoryClearSearch" type="button" *ngIf="blancheCategory" matSuffix mat-icon-button
+                  aria-label="clear" (click)="blancheCategory='';loadService()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit
+        </button>
+        <div id="todoBox" *ngIf="blanche; else todosError">
+          <mat-card #elem class="todos" [id]="todo._id"
+                    *ngFor="let todo of this.filterBlanche(blancheBody)">
+
+            <mat-card-title>{{todo.owner}}
+            </mat-card-title>
+
+            <mat-card-content>
+              <div>
+                Category: {{todo.category}}
+              </div>
+
+              <div>
+                Body: {{todo.body}}
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+        <ng-template #todosError>
+          <mat-error>
+            There was a problem loading the todos. Possibly the server is down or perhaps there are network
+            issues.
+          </mat-error>
+          <mat-error>
+            Please wait a bit and try again or start the server.
+          </mat-error>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

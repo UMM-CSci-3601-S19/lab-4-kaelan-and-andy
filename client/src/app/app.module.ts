@@ -18,6 +18,7 @@ import {TodoListComponent} from "./todo/todo-list.component";
 import {TodoComponent} from "./todo/todo.component";
 import {TodoListService} from "./todo/todo-list.service";
 import {AddTodoComponent} from "./todo/add-todo.component";
+import {BlancheListComponent} from "./todo/BlancheComplete.component";
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import {AddTodoComponent} from "./todo/add-todo.component";
     AddUserComponent,
     TodoListComponent,
     TodoComponent,
-    AddTodoComponent
+    AddTodoComponent,
+    BlancheListComponent
   ],
   providers: [
     UserListService,

@@ -20,22 +20,22 @@ describe('Todo component', () => {
       getTodoById: (todoId: string) => Observable.of([
         {
           _id: 'chris_id',
-          onwer: 'Chris',
-          status: 'complete',
+          owner: 'Chris',
+          status: true,
           category: 'homework',
           body: 'bleh bleh bleh'
         },
         {
           _id: 'pat_id',
-          onwer: 'Pat',
-          status: 'incomplete',
+          owner: 'Pat',
+          status: false,
           category: 'video games',
           body: 'blah blah blah'
         },
         {
           _id: 'jamie_id',
-          onwer: 'Jamie',
-          status: 'complete',
+          owner: 'Jamie',
+          status: true,
           category: 'homework',
           body: 'bluh bluh bluh'
         }

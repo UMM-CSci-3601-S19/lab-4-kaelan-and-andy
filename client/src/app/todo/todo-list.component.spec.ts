@@ -67,23 +67,23 @@ describe('Todo list', () => {
   }));
 
   it('contains all the todos', () => {
-    expect(todoList.todos.length).toBe(3);
+    expect(todoList.todo.length).toBe(3);
   });
 
   it('contains a owner named \'Chris\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Chris')).toBe(true);
+    expect(todoList.todo.some((todo: Todo) => todo.owner === 'Chris')).toBe(true);
   });
 
   it('contain a owner named \'Jamie\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Jamie')).toBe(true);
+    expect(todoList.todo.some((todo: Todo) => todo.owner === 'Jamie')).toBe(true);
   });
 
   it('doesn\'t contain a owner named \'Santa\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Santa')).toBe(false);
+    expect(todoList.todo.some((todo: Todo) => todo.owner === 'Santa')).toBe(false);
   });
 
   it('has two owners with todo category homework', () => {
-    expect(todoList.todos.filter((todo: Todo) => todo.category === 'homework').length).toBe(2);
+    expect(todoList.todo.filter((todo: Todo) => todo.category === 'homework').length).toBe(2);
   });
 
   it('todo list filters by owner', () => {
@@ -147,7 +147,7 @@ describe('Misbehaving Todo List', () => {
 
   it('generates an error if we don\'t set up a TodoListService', () => {
     // Since the observer throws an error, we don't expect todos to be defined.
-    expect(todoList.todos).toBeUndefined();
+    expect(todoList.todo).toBeUndefined();
   });
 });
 

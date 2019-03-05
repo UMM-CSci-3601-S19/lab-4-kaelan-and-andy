@@ -21,7 +21,7 @@ describe('Add todo component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CustomModule],
-      declarations: [AddUserComponent],
+      declarations: [AddTodoComponent],
       providers: [
         {provide: MatDialogRef, useValue: mockMatDialogRef},
         {provide: MAT_DIALOG_DATA, useValue: null},
