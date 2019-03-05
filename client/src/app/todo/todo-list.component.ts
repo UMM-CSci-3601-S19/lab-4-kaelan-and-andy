@@ -15,6 +15,16 @@ export class TodoListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
   public todo: Todo[];
   public filteredTodos: Todo[];
+  public completeStatus: string;
+
+  statusTranslate(){
+    if (todo.status == true) {
+      completeStatus = 'Complete'
+    }
+    else {
+      completeStatus = 'Incomplete'
+    }
+  }
 
   // These are the target values used in searching.
   // We should rename them to make that clearer.
@@ -26,7 +36,7 @@ export class TodoListComponent implements OnInit {
   // The ID of the
   private highlightedID: string = '';
 
-  // Inject the UserListService into this component.
+  // Inject the TodoListService into this component.
   constructor(public todoListService: TodoListService, public dialog: MatDialog) {
 
   }
@@ -93,7 +103,7 @@ export class TodoListComponent implements OnInit {
     // Subscribe waits until the data is fully downloaded, then
     // performs an action on it (the first lambda)
 
-     const todo: Observable<Todo[]> = this.todoListService.getTodos();
+    const todo: Observable<Todo[]> = this.todoListService.getTodos();
     todo.subscribe(
       todo => {
         this.todo = todo;

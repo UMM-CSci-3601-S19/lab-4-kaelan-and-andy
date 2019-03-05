@@ -7,3 +7,21 @@
   padding-right: 14px;
 }
 
+.true{
+  float: right;
+  display: inline;
+  color: #009926;
+}
+.false{
+  float: right;
+  display: inline;
+  color: #ff0000;
+}
+
+#todoBox{
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}

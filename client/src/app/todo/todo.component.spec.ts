@@ -36,10 +36,10 @@ describe('Todo component', () => {
           _id: 'jamie_id',
           onwer: 'Jamie',
           status: 'complete',
-          category: 'groceries',
+          category: 'homework',
           body: 'bluh bluh bluh'
         }
-      ].find(user => user._id === userId))
+      ].find(todo => todo._id === todoId))
     };
 
     TestBed.configureTestingModule({
