@@ -10,21 +10,21 @@ describe('Todo list service: ', () => {
   const testTodos: Todo[] = [
     {
       _id: 'chris_id',
-      onwer: 'Chris',
+      owner: 'Chris',
       status: 'complete',
       category: 'homework',
       body: 'bleh bleh bleh'
     },
     {
       _id: 'pat_id',
-      onwer: 'Pat',
+      owner: 'Pat',
       status: 'incomplete',
       category: 'video games',
       body: 'blah blah blah'
     },
     {
       _id: 'jamie_id',
-      onwer: 'Jamie',
+      owner: 'Jamie',
       status: 'complete',
       category: 'homework',
       body: 'bluh bluh bluh'
@@ -83,34 +83,34 @@ describe('Todo list service: ', () => {
     req.flush(testTodos);
   });
 
-  it('getTodos(todoCompany) adds appropriate param string to called URL', () => {
+  /*it('getTodos(todoCompany) adds appropriate param string to called URL', () => {
     todoListService.getTodos('m').subscribe(
       todo => expect(todo).toEqual(mTodos)
     );
 
-    const req = httpTestingController.expectOne(todoListService.baseUrl + '?company=m&');
+    const req = httpTestingController.expectOne(todoListService.baseUrl + '?body=a&');
     expect(req.request.method).toEqual('GET');
     req.flush(mTodos);
-  });
+  });*/
 
   it('filterByCompany(todoCompany) deals appropriately with a URL that already had a company', () => {
-    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?company=f&something=k&';
+    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?category=f&something=k&';
     todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
-    todoListService.filterByCompany('m');
-    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&company=m&');
+    todoListService.filterByCategory('m');
+    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&category=m&');
   });
 
   it('filterByCompany(todoCompany) deals appropriately with a URL that already had some filtering, but no company', () => {
     currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?something=k&';
     todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
-    todoListService.filterByCompany('m');
-    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&company=m&');
+    todoListService.filterByCategory('m');
+    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&category=m&');
   });
 
   it('filterByCompany(todoCompany) deals appropriately with a URL has the keyword company, but nothing after the =', () => {
-    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?company=&';
+    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?category=&';
     todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
-    todoListService.filterByCompany('');
+    todoListService.filterByCategory('');
     expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '');
   });
 
@@ -131,10 +131,10 @@ describe('Todo list service: ', () => {
     const jesse_id = 'jesse_id';
     const newTodo: Todo = {
       _id: '',
-      name: 'Jesse',
-      age: 72,
-      company: 'Smithsonian',
-      email: 'jesse@stuff.com'
+      owner: 'Jesse',
+      status: 'false',
+      category: 'Smithsonian',
+      body: 'RIP'
     };
 
     todoListService.addNewTodo(newTodo).subscribe(

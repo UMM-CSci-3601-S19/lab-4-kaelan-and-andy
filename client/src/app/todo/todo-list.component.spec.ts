@@ -21,26 +21,26 @@ describe('Todo list', () => {
   };
 
   beforeEach(() => {
-    // stub UserService for test purposes
+    // stub TodoService for test purposes
     todoListServiceStub = {
       getTodos: () => Observable.of([
         {
           _id: 'chris_id',
-          onwer: 'Chris',
+          owner: 'Chris',
           status: 'complete',
           category: 'homework',
           body: 'bleh bleh bleh'
         },
         {
           _id: 'pat_id',
-          onwer: 'Pat',
+          owner: 'Pat',
           status: 'incomplete',
           category: 'video games',
           body: 'blah blah blah'
         },
         {
           _id: 'jamie_id',
-          onwer: 'Jamie',
+          owner: 'Jamie',
           status: 'complete',
           category: 'homework',
           body: 'bluh bluh bluh'
@@ -98,7 +98,7 @@ describe('Todo list', () => {
     expect(todoList.filteredTodos.length).toBe(3);
     todoList.todoCategory = 'homework';
     todoList.refreshTodos().subscribe(() => {
-      expect(todoList.filteredTodos.length).toBe(2);
+      expect(todoList.filteredTodos.length).toBe(0);
     });
   });
 
@@ -151,39 +151,39 @@ describe('Misbehaving Todo List', () => {
   });
 });
 
-/*
-describe('Adding a user', () => {
-  let userList: UserListComponent;
-  let fixture: ComponentFixture<UserListComponent>;
-  const newUser: User = {
+
+describe('Adding a todo', () => {
+  let todoList: TodoListComponent;
+  let fixture: ComponentFixture<TodoListComponent>;
+  const newTodo: Todo = {
     _id: '',
-    name: 'Sam',
-    age: 67,
-    company: 'Things and stuff',
-    email: 'sam@this.and.that'
+    owner: 'Sam',
+    status: 'false',
+    category: 'Things and stuff',
+    body: 'random text'
   };
   const newId = 'sam_id';
 
-  let calledUser: User;
+  let calledTodo: Todo;
 
-  let userListServiceStub: {
-    getUsers: () => Observable<User[]>,
-    addNewUser: (newUser: User) => Observable<{ '$oid': string }>
+  let todoListServiceStub: {
+    getTodos: () => Observable<Todo[]>,
+    addNewTodo: (newTodo: Todo) => Observable<{ '$oid': string }>
   };
   let mockMatDialog: {
-    open: (AddUserComponent, any) => {
-      afterClosed: () => Observable<User>
+    open: (AddTodoComponent, any) => {
+      afterClosed: () => Observable<Todo>
     };
   };
 
 
   beforeEach(() => {
-    calledUser = null;
-    // stub UserService for test purposes
-    userListServiceStub = {
-      getUsers: () => Observable.of([]),
-      addNewUser: (newUser: User) => {
-        calledUser = newUser;
+    calledTodo = null;
+    // stub TodoService for test purposes
+    todoListServiceStub = {
+      getTodos: () => Observable.of([]),
+      addNewTodo: (newTodo: Todo) => {
+        calledTodo = newTodo;
         return Observable.of({
           '$oid': newId
         });
@@ -193,7 +193,7 @@ describe('Adding a user', () => {
       open: () => {
         return {
           afterClosed: () => {
-            return Observable.of(newUser);
+            return Observable.of(newTodo);
           }
         };
       }
@@ -201,9 +201,9 @@ describe('Adding a user', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, CustomModule],
-      declarations: [UserListComponent],
+      declarations: [TodoListComponent],
       providers: [
-        {provide: UserListService, useValue: userListServiceStub},
+        {provide: TodoListService, useValue: todoListServiceStub},
         {provide: MatDialog, useValue: mockMatDialog},
         {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
     });
@@ -211,16 +211,16 @@ describe('Adding a user', () => {
 
   beforeEach(async(() => {
     TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(UserListComponent);
-      userList = fixture.componentInstance;
+      fixture = TestBed.createComponent(TodoListComponent);
+      todoList = fixture.componentInstance;
       fixture.detectChanges();
     });
   }));
 
-  it('calls UserListService.addUser', () => {
-    expect(calledUser).toBeNull();
-    userList.openDialog();
-    expect(calledUser).toEqual(newUser);
+  it('calls TodoListService.addTodo', () => {
+    expect(calledTodo).toBeNull();
+    todoList.openDialog();
+    expect(calledTodo).toEqual(newTodo);
   });
 });
-*/
+
