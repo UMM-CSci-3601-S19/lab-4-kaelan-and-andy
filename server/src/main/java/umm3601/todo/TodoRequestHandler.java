@@ -3,7 +3,7 @@ package umm3601.todo;
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
-import umm3601.todo.TodoController;
+
 
 public class TodoRequestHandler {
 
@@ -80,8 +80,8 @@ public class TodoRequestHandler {
     String status = newTodo.getString("status");
     String category = newTodo.getString("category");
     String body = newTodo.getString("body");
-
+    Boolean ssstatus = Boolean.parseBoolean(status);
     System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " category=" + category + " body=" + body + ']');
-    return todoController.addNewTodo(owner, status, category, body);
+    return todoController.addNewTodo(owner, ssstatus, category, body);
   }
 }

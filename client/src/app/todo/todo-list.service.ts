@@ -15,9 +15,11 @@ export class TodoListService {
   constructor(private http: HttpClient) {
   }
 
-  getTodos(todoOwner?: string, todoStatus?: string): Observable<Todo[]> {
+  getTodos(todoOwner?: string, todoStatus?: string, todoBody?: string, todoCategory?: string): Observable<Todo[]> {
     this.filterByOwner(todoOwner);
     this.filterByStatus(todoStatus);
+    this.filterByBody(todoBody);
+    this.filterByCategory(todoCategory);
     return this.http.get<Todo[]>(this.todoUrl);
   }
 
@@ -84,6 +86,32 @@ export class TodoListService {
       }
     }
   }
+
+  filterByBody(todoBody?: string): void {
+    if (!(todoBody == null || todoBody === '')) {
+      if (this.parameterPresent('body=')) {
+        this.removeParameter('body=');
+      }
+      if (this.todoUrl.indexOf('?') !== -1) {
+        // there was already some information passed in this url
+        this.todoUrl += 'body=' + todoBody + '&';
+      } else {
+        // this was the first bit of information to pass in the url
+        this.todoUrl += '?body=' + todoBody + '&';
+      }
+    } else {
+      // there was nothing in the box to put onto the URL... reset
+      if (this.parameterPresent('body=')) {
+        let start = this.todoUrl.indexOf('body=');
+        const end = this.todoUrl.indexOf('&', start);
+        if (this.todoUrl.substring(start - 1, start) === '?') {
+          start = start - 1;
+        }
+        this.todoUrl = this.todoUrl.substring(0, start) + this.todoUrl.substring(end + 1);
+      }
+    }
+  }
+
 
   filterByStatus(todoStatus?: string): void {
     if (!(todoStatus == null || todoStatus === '')) {

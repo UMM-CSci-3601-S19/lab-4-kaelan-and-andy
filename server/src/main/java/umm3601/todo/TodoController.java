@@ -36,16 +36,14 @@ public class TodoController {
    * and `null` if no user with that ID is found
    */
   public String getTodo(String id) {
-    FindIterable<Document> jsonTodos
-      = todoCollection
-      .find(eq("_id", new ObjectId(id)));
+    FindIterable<Document> jsonTodos = todoCollection.find(eq("_id", new ObjectId(id)));
 
     Iterator<Document> iterator = jsonTodos.iterator();
     if (iterator.hasNext()) {
       Document todo = iterator.next();
       return todo.toJson();
     } else {
-      // We didn't find the desired user
+      // We didn't find the desired todo
       return null;
     }
   }
@@ -65,11 +63,8 @@ public class TodoController {
     Document filterDoc = new Document();
 
     if (queryParams.containsKey("status")) {
-      String targetContent = (queryParams.get("status")[0]);
-      Document contentRegQuery = new Document();
-      contentRegQuery.append("$regex", targetContent);
-      contentRegQuery.append("$options", "i");
-      filterDoc = filterDoc.append("status", contentRegQuery);
+      Boolean targetContent = Boolean.parseBoolean(queryParams.get("status")[0]);
+      filterDoc = filterDoc.append("status", targetContent);
     }
 
     if (queryParams.containsKey("category")) {
@@ -78,6 +73,22 @@ public class TodoController {
       contentRegQuery.append("$regex", targetContent);
       contentRegQuery.append("$options", "i");
       filterDoc = filterDoc.append("category", contentRegQuery);
+    }
+
+    if (queryParams.containsKey("body")) {
+      String targetContent = (queryParams.get("body")[0]);
+      Document contentRegQuery = new Document();
+      contentRegQuery.append("$regex", targetContent);
+      contentRegQuery.append("$options", "i");
+      filterDoc = filterDoc.append("body", contentRegQuery);
+    }
+
+    if (queryParams.containsKey("owner")) {
+      String targetContent = (queryParams.get("owner")[0]);
+      Document contentRegQuery = new Document();
+      contentRegQuery.append("$regex", targetContent);
+      contentRegQuery.append("$options", "i");
+      filterDoc = filterDoc.append("owner", contentRegQuery);
     }
 
     //FindIterable comes from mongo, Document comes from Gson
@@ -107,7 +118,7 @@ public class TodoController {
    * @param body the body of the new todo
    * @return boolean after successfully or unsuccessfully adding a todo
    */
-  public String addNewTodo(String owner, String status, String category, String body) {
+  public String addNewTodo(String owner, Boolean status, String category, String body) {
 
     Document newTodo = new Document();
     newTodo.append("owner", owner);

@@ -15,16 +15,6 @@ export class TodoListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
   public todo: Todo[];
   public filteredTodos: Todo[];
-  public completeStatus: string;
-
-  statusTranslate(){
-    if (todo.status == true) {
-      completeStatus = 'Complete'
-    }
-    else {
-      completeStatus = 'Incomplete'
-    }
-  }
 
   // These are the target values used in searching.
   // We should rename them to make that clearer.
@@ -46,7 +36,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: '', body: '', category: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: null, body: '', category: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -69,7 +59,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public filterTodos(searchOwner:string, searchStatus: string): Todo[] {
+  public filterTodos(searchOwner:string, searchStatus: string, searchBody: string, searchCategory: string): Todo[] {
 
     this.filteredTodos = this.todo;
 
@@ -84,8 +74,25 @@ export class TodoListComponent implements OnInit {
 
     // Filter by status
     if (searchStatus != null) {
+
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchStatus || todo.status == searchStatus;
+        return !searchStatus || String(todo.status).toLowerCase().indexOf(searchStatus) !== -1;
+      });
+    }
+
+    // Filter by body
+    if (searchBody != null) {
+      searchBody = searchBody.toLocaleLowerCase();
+
+      this.filteredTodos = this.filteredTodos.filter(todo => {
+        return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
+      });
+    }
+
+    // Filter by category
+    if (searchCategory != null) {
+      this.filteredTodos = this.filteredTodos.filter(todo => {
+        return !searchCategory || todo.category.toLowerCase().indexOf(searchOwner) !== -1;
       });
     }
 
@@ -107,7 +114,7 @@ export class TodoListComponent implements OnInit {
     todo.subscribe(
       todo => {
         this.todo = todo;
-        this.filterTodos(this.todoOwner, this.todoStatus);
+        this.filterTodos(this.todoOwner, this.todoStatus, this.todoBody, this.todoCategory);
       },
       err => {
         console.log(err);
@@ -116,7 +123,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadService(): void {
-    this.todoListService.getTodos(this.todoCategory).subscribe(
+    this.todoListService.getTodos('','','',this.todoCategory).subscribe(
       todo => {
         this.todo = todo;
         this.filteredTodos = this.todo;
